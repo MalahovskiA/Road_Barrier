@@ -35,21 +35,30 @@ import by.malahovski.barriers.repository.RoleRepository;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthController {
 	
-	@Autowired
+	final
 	AuthenticationManager authenticationManager;
 	
-	@Autowired
-    UserRepository userRespository;
+	final
+	UserRepository userRepository;
 	
-	@Autowired
+	final
 	RoleRepository roleRepository;
 	
-	@Autowired
+	final
 	PasswordEncoder passwordEncoder;
 	
-	@Autowired
+	final
 	JwtUtils jwtUtils;
-	
+
+	@Autowired
+	public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
+		this.authenticationManager = authenticationManager;
+		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.jwtUtils = jwtUtils;
+	}
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest) {
 		
@@ -76,13 +85,13 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest) {
 		
-		if (userRespository.existsByUsername(signupRequest.getUsername())) {
+		if (userRepository.existsByUsername(signupRequest.getUsername())) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Username is exist"));
 		}
 		
-		if (userRespository.existsByEmail(signupRequest.getEmail())) {
+		if (userRepository.existsByEmail(signupRequest.getEmail())) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Email is exist"));
@@ -127,7 +136,7 @@ public class AuthController {
 			});
 		}
 		user.setRoles(roles);
-		userRespository.save(user);
+		userRepository.save(user);
 		return ResponseEntity.ok(new MessageResponse("User CREATED"));
 	}
 }
