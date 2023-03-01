@@ -1,13 +1,14 @@
 package by.malahovski.barriers.models.barriers.roadBarrierKit;
 
+
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "road_rack")
-public class RoadRacK {
+@Table(name = "road_sleeve")
+public class RoadSleeve {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +18,8 @@ public class RoadRacK {
     @Column
     private String name;
 
-    @Column (name = "road_rack_profile")
-    private String roadRackProfile;
-
     @Column
-    private Double height;
+    private Integer height;
 
     @Column
     private Double thickness;

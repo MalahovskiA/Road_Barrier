@@ -4,10 +4,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+
 @Data
 @Entity
-@Table(name = "road_rack")
-public class RoadRacK {
+@Table(name = "road_rope")
+public class RoadRope {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,14 +18,14 @@ public class RoadRacK {
     @Column
     private String name;
 
-    @Column (name = "road_rack_profile")
-    private String roadRackProfile;
-
     @Column
-    private Double height;
+    private Integer diameter;
 
-    @Column
-    private Double thickness;
+    @Column(name = "number_of_lays")
+    private Integer numberOfLays;
+
+    @Column(name = "number_of_strands")
+    private Integer numberOfStrands;
 
     @Column
     private Double weight;
