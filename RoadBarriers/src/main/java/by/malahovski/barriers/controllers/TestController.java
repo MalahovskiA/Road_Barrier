@@ -22,10 +22,10 @@ public class TestController {
 		return "user API";
 	}
 	
-	@GetMapping("/mod")
+	@GetMapping("/manager")
 	@PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
 	public String moderatorAccess() {
-		return "moderator API";
+		return "manager API";
 	}
 	
 	@GetMapping("/admin")

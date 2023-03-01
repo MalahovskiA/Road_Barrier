@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface RoadBarrierService {
 
-        List<RoadBarrier> getAllWireBarriers();
+        List<RoadBarrier> getAllBarriers();
 }

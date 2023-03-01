@@ -1,17 +1,35 @@
-# spring-jwt-realization
-In this project I realize full mechanism of user login and registration. Also, Implement Role Based Action Control.
+# project Barrier
+This project contains:
+`Objects`
+`Methods`
+`Collections`
+`Saving and reading data to/from files (multiple files)`
+`Working with the database (Hibernate, SpringData)`
+`Stream and Optional`
+`Multithreading`
+`Web technologies and Spring (RestController, Service, Repository)`
+Project used `Spring Boot`, `Spring Data JPA` and `Postgres` to store data, `Spring Security 5` to implement security issues, 
+`JWT` to communicate between `Server` and `Client`.
+The project is hosted on GitHub
 
-To implement it, I used `Spring Boot`, `Spring Data JPA` and `Postgres` to store data, `Spring Security 5` to implement security issues, `JWT` to communicate between `Server` and `Client`. 
+The project also demonstrated work with:
+`Working with strings`
+`Interfaces`
+`Generic types`
+`Lambda Expressions`
+
 
 # Running
 To run the application enter the command line: `mvn spring-boot:run`
 
-After project running, schema in the Database created. First of all, you need some `Roles`:
+The project provides for the calculation of road barrier structures based on safety conditions TP TC 014
+
+The project provides the following roles for users:
 
 ```
-INSERT INTO roles(name) VALUES('ROLE_USER');
-INSERT INTO roles(name) VALUES('ROLE_SALER');
-INSERT INTO roles(name) VALUES('ROLE_ADMIN');
+'ROLE_USER';
+'ROLE_MANAGER';
+'ROLE_ADMIN';
 ```
 
 # Signup
@@ -30,7 +48,7 @@ INSERT INTO roles(name) VALUES('ROLE_ADMIN');
 ```
 {
     "username": "admin",
-    "password": "1234"
+    "password": "12345678"
 }
 ```
 
