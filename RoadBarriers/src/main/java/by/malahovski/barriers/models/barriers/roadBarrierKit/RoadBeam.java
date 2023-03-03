@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+
 @Data
 @Entity
 @Table(name = "road_beam")
@@ -31,4 +32,5 @@ public class RoadBeam {
 
     @Column
     private Double price;
+
 }

@@ -108,5 +108,4 @@ public class UserDetailsImpl implements UserDetails {
 			return other.id == null;
 		} else return id.equals(other.id);
 	}
-	
 }

@@ -1,4 +1,4 @@
-package by.malahovski.barriers.pojo;
+package by.malahovski.barriers.responseUserHelper;
 
 public class MessageResponse {
 	
@@ -15,5 +15,4 @@ public class MessageResponse {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-		
 }

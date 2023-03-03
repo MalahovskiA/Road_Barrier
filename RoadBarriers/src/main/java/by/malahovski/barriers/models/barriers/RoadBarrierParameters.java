@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "main_parameters")
-public  class RoadBarrier {
+public  class RoadBarrierParameters {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

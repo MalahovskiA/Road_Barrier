@@ -1,39 +1,52 @@
 package by.malahovski.barriers.service;
 
 
-//public class Helper implements Runnable {
-//
-////    private UserEntity userEntity;
-////
-////    public Helper(UserEntity userEntity) {
-////        this.userEntity = userEntity;
-////    }
-////
-////
-////    @Override
-////    public void run() {
-////        System.out.print("Поток с именем " + Thread.currentThread().getName() + " запущен");
-////        System.out.println(userEntity.getLogin());
-////        System.out.println(userEntity.getRoleEntity());
-////
-////
-////        Path newFilePath = Paths.get("D:", "LOG.txt");
-////
-////        if (!Files.exists(newFilePath)) {
-////            try {
-////                Files.createFile(newFilePath);
-////            } catch (IOException e) {
-////                System.err.println(e);
-////            }
-////        }
-//////        try (BufferedWriter bw = Files.newBufferedWriter(newFilePath, StandardCharsets.UTF_8)) {
-//////            bw.write(userEntity.getLoginName());
-//////            bw.write(userEntity.getEmail());
-//////            System.out.println("Запись файла успешна");
-////        try {
-////            Files.writeString(newFilePath, userEntity.toString(), StandardOpenOption.APPEND);
-////        } catch (IOException e) {
-////            e.printStackTrace();
-////        }
-////    }
-//}
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Date;
+
+public class Helper implements Runnable {
+
+    private final UserDetailsImpl userDetails;
+
+    public Helper(UserDetailsImpl userDetails) {
+        this.userDetails = userDetails;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("thread named " + Thread.currentThread().getName() + " started");
+
+        Path newFilePath = Paths.get("D:", "LOG.txt");
+
+        if (!Files.exists(newFilePath)) {
+            try {
+                Files.createFile(newFilePath);
+            } catch (IOException e) {
+                System.err.println(e);
+            }
+        }
+        try (BufferedWriter bw = Files.newBufferedWriter(newFilePath, StandardCharsets.UTF_8)) {
+            Date date =  new Date();
+            bw.write(date.toString());
+            bw.write(userDetails.getUsername());
+            bw.write(userDetails.getEmail());
+            bw.write(String.valueOf(userDetails.isEnabled()));
+            bw.write(String.valueOf(userDetails.isAccountNonExpired()));
+            System.out.println("File written");
+            try {
+                Files.writeString(newFilePath, userDetails.toString(), StandardOpenOption.APPEND);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}

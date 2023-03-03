@@ -1,31 +1,49 @@
 package by.malahovski.barriers.controllers;
 
-import by.malahovski.barriers.models.barriers.RoadBarrier;
+import by.malahovski.barriers.models.barriers.EClassOfTheBarrier;
+import by.malahovski.barriers.models.barriers.RoadBarrierParameters;
 import by.malahovski.barriers.service.RoadBarrierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @Controller
 @ResponseBody
 @RequestMapping("/barriers")
 public class RoadBarrierController {
 
-        private final RoadBarrierService roadBarrierService;
+    private final RoadBarrierService roadBarrierService;
 
-        @Autowired
-        public RoadBarrierController(RoadBarrierService roadBarrierService) {
-            this.roadBarrierService = roadBarrierService;
-        }
+    @Autowired
+    public RoadBarrierController(RoadBarrierService roadBarrierService) {
+        this.roadBarrierService = roadBarrierService;
+    }
 
-        @GetMapping(value = "/all")
-        public ResponseEntity<List<RoadBarrier>> getAllBarriers() {
-            List<RoadBarrier> roadBarrierList = roadBarrierService.getAllBarriers();
-            return ResponseEntity.status(HttpStatus.FOUND).body(roadBarrierList);
-        }
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<RoadBarrierParameters>> getAllBarriers() {
+        List<RoadBarrierParameters> roadBarrierParametersList = roadBarrierService.getAllBarriers();
+        return ResponseEntity.status(HttpStatus.FOUND).body(roadBarrierParametersList);
+    }
+
+    @GetMapping(value = "/class/{class}")
+    public ResponseEntity<List<RoadBarrierParameters>> getBarriersByClass(@PathVariable("class") String byClass) {
+        List<RoadBarrierParameters> roadBarrierParametersList = roadBarrierService.getBarriersByClass(EClassOfTheBarrier.valueOf(byClass));
+        return ResponseEntity.status(HttpStatus.FOUND).body(roadBarrierParametersList);
+    }
+
+    @GetMapping(value = "/name/{name}")
+    public ResponseEntity<RoadBarrierParameters> getBarriersByName(@PathVariable("name") String name) {
+        RoadBarrierParameters roadBarrierParametersList = roadBarrierService.getBarriersByName(name);
+        return ResponseEntity.status(HttpStatus.FOUND).body(roadBarrierParametersList);
+    }
+    @PutMapping(value = "/price")
+    @PreAuthorize("hasRole('MANAGER')")
+    public ResponseEntity<Boolean> readPrice(@RequestBody String name) {
+        return ResponseEntity.ok(roadBarrierService.readPrice(name));
+    }
 }

@@ -1,4 +1,4 @@
-package by.malahovski.barriers.pojo;
+package by.malahovski.barriers.responseUserHelper;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class JwtResponse {
 	private String username;
 	private String email;
 	private List<String> roles;
-	
+
 	public JwtResponse(String token, Long id, String username, String email, List<String> roles) {
 		this.token = token;
 		this.id = id;
@@ -66,5 +66,4 @@ public class JwtResponse {
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
-
 }

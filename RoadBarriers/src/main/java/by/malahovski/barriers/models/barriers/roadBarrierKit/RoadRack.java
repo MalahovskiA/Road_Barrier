@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "road_rack")
-public class RoadRacK {
+public class RoadRack {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

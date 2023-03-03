@@ -1,4 +1,4 @@
-package by.malahovski.barriers.pojo;
+package by.malahovski.barriers.responseUserHelper;
 
 import java.util.Set;
 
@@ -32,5 +32,4 @@ public class SignupRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 }

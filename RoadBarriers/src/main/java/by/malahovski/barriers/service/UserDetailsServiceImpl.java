@@ -13,8 +13,7 @@ import by.malahovski.barriers.models.User;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	final
-	UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	@Autowired
 	public UserDetailsServiceImpl(UserRepository userRepository) {
@@ -29,4 +28,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return UserDetailsImpl.build(user);
 	}
 
+	public Boolean deleteUserById(Long id) throws UsernameNotFoundException {
+		if(userRepository.existsById(id)) {
+			userRepository.deleteById(id);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
