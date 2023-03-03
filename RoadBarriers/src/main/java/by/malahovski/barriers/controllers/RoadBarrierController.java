@@ -53,7 +53,15 @@ public class RoadBarrierController {
     @GetMapping(value = "/technical/{holdingCapacity}/{workingWidth}")
     @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<List<RoadBarrierParameters>> getTechnicalCalculate(@PathVariable Integer holdingCapacity,
-                                                         @PathVariable Double workingWidth) {
+                                                                             @PathVariable Double workingWidth) {
+        return ResponseEntity.ok(roadBarrierService.getRoadBarrierParametersByParameters(holdingCapacity,workingWidth));
+    }
+
+    @GetMapping(value = "/calculate/{length}{holdingCapacity}/{workingWidth}")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
+    public ResponseEntity<List<RoadBarrierParameters>> calculateBarrier(@PathVariable String length,
+                                                                        @PathVariable Integer holdingCapacity,
+                                                                        @PathVariable Double workingWidth) {
         return ResponseEntity.ok(roadBarrierService.getRoadBarrierParametersByParameters(holdingCapacity,workingWidth));
     }
 }

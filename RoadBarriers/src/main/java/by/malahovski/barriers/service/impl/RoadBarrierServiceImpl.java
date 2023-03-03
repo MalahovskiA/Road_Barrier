@@ -3,16 +3,14 @@ package by.malahovski.barriers.service.impl;
 import by.malahovski.barriers.models.barriers.EClassOfTheBarrier;
 import by.malahovski.barriers.models.barriers.RoadBarrierParameters;
 import by.malahovski.barriers.models.barriers.RoadMetalBarrier;
+import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadBeam;
 import by.malahovski.barriers.repository.RoadBarrierRepository;
 import by.malahovski.barriers.service.RoadBarrierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class RoadBarrierServiceImpl implements RoadBarrierService {
@@ -65,5 +63,25 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
         return roadBarrierRepository.findAllByHoldingCapacityGreaterThanAndWorkingWidthGreaterThan(holdingCapacity, workingWidth)
                 .orElseThrow(() -> new RuntimeException("Barriers on" + holdingCapacity + " and "
                         + workingWidth + " is not found"));
+    }
+
+    @Override
+    public RoadMetalBarrier calculateBarrierByParameters(Integer length, Integer holdingCapacity, Double workingWidth) {
+        if(roadBarrierRepository.findAllByHoldingCapacityGreaterThanAndWorkingWidthGreaterThan(holdingCapacity, workingWidth).isPresent()) {
+            List<RoadBarrierParameters> roadBarrierParameters = roadBarrierRepository.findAllByHoldingCapacityGreaterThanAndWorkingWidthGreaterThan(holdingCapacity, workingWidth).get();
+            Optional<RoadBarrierParameters> parameters = roadBarrierParameters.stream().min(Comparator.comparing(RoadBarrierParameters::getRackPitch));
+
+            List<RoadBeam> roadBeams = new ArrayList<>();
+
+
+            RoadMetalBarrier roadMetalBarrier = new RoadMetalBarrier();
+            roadMetalBarrier.setLength(length);
+            roadMetalBarrier.setHoldingCapacity(parameters.get().getHoldingCapacity());
+            roadMetalBarrier.setWorkingWidth(parameters.get().getWorkingWidth());
+            roadMetalBarrier.setRoadBarrierParameters(parameters.get());
+
+
+        }
+        return null;
     }
 }

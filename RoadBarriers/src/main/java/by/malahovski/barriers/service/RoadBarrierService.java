@@ -5,7 +5,7 @@ import by.malahovski.barriers.models.barriers.RoadBarrierParameters;
 import by.malahovski.barriers.models.barriers.RoadMetalBarrier;
 
 import java.util.List;
-import java.util.Set;
+
 
 public interface RoadBarrierService {
 
@@ -17,7 +17,6 @@ public interface RoadBarrierService {
 
         Boolean readPrice(String fileName);
 
-        List<RoadBarrierParameters> getRoadBarrierParametersByParameters (
-                                                            Integer holdingCapacity,
-                                                            Double workingWidth);
+        List<RoadBarrierParameters> getRoadBarrierParametersByParameters (Integer holdingCapacity, Double workingWidth);
+        RoadMetalBarrier calculateBarrierByParameters (Integer length, Integer holdingCapacity, Double workingWidth);
 }
