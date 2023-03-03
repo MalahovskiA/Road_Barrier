@@ -17,7 +17,7 @@ public interface RoadBarrierService {
 
         Boolean readPrice(String fileName);
 
-//        Set<RoadMetalBarrier> getMetalBarriersByParameters (Integer length,
-//                                                            Integer holdingCapacity,
-//                                                            Double workingWidth);
+        List<RoadBarrierParameters> getRoadBarrierParametersByParameters (
+                                                            Integer holdingCapacity,
+                                                            Double workingWidth);
 }

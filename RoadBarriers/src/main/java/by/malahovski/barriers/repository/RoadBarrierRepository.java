@@ -18,5 +18,5 @@ public interface RoadBarrierRepository extends JpaRepository<RoadBarrierParamete
 
     Optional<List<RoadBarrierParameters>> findAllByClassOfTheBarrier(EClassOfTheBarrier classOfTheBarrier);
 
-//    List<RoadBarrierParameters> findAllByHoldingCapacityBeforeAndWorkingWidthBefore(Integer holdingCapacity, Double workingWidth);
+    Optional<List<RoadBarrierParameters>> findAllByHoldingCapacityGreaterThanAndWorkingWidthGreaterThan(Integer holdingCapacity, Double workingWidth);
 }

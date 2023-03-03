@@ -60,11 +60,10 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
         return true;
     }
 
-//    @Override
-//    public Set<RoadMetalBarrier> getMetalBarriersByParameters(Integer length, Integer holdingCapacity, Double workingWidth) {
-//        Set<RoadMetalBarrier> roadMetalBarrierList = new HashSet<>();
-//        roadBarrierRepository.findAllByHoldingCapacityBeforeAndWorkingWidthBefore(holdingCapacity, workingWidth);
-//
-//        return null;
-//    }
+    @Override
+    public List<RoadBarrierParameters> getRoadBarrierParametersByParameters(Integer holdingCapacity, Double workingWidth) {
+        return roadBarrierRepository.findAllByHoldingCapacityGreaterThanAndWorkingWidthGreaterThan(holdingCapacity, workingWidth)
+                .orElseThrow(() -> new RuntimeException("Barriers on" + holdingCapacity + " and "
+                        + workingWidth + " is not found"));
+    }
 }

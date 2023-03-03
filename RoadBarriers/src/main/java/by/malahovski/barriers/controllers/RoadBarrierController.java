@@ -25,18 +25,21 @@ public class RoadBarrierController {
     }
 
     @GetMapping(value = "/all")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<List<RoadBarrierParameters>> getAllBarriers() {
         List<RoadBarrierParameters> roadBarrierParametersList = roadBarrierService.getAllBarriers();
         return ResponseEntity.status(HttpStatus.FOUND).body(roadBarrierParametersList);
     }
 
     @GetMapping(value = "/class/{class}")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<List<RoadBarrierParameters>> getBarriersByClass(@PathVariable("class") String byClass) {
         List<RoadBarrierParameters> roadBarrierParametersList = roadBarrierService.getBarriersByClass(EClassOfTheBarrier.valueOf(byClass));
         return ResponseEntity.status(HttpStatus.FOUND).body(roadBarrierParametersList);
     }
 
     @GetMapping(value = "/name/{name}")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<RoadBarrierParameters> getBarriersByName(@PathVariable("name") String name) {
         RoadBarrierParameters roadBarrierParametersList = roadBarrierService.getBarriersByName(name);
         return ResponseEntity.status(HttpStatus.FOUND).body(roadBarrierParametersList);
@@ -45,5 +48,12 @@ public class RoadBarrierController {
     @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<Boolean> readPrice(@RequestBody String name) {
         return ResponseEntity.ok(roadBarrierService.readPrice(name));
+    }
+
+    @GetMapping(value = "/technical/{holdingCapacity}/{workingWidth}")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
+    public ResponseEntity<List<RoadBarrierParameters>> getTechnicalCalculate(@PathVariable Integer holdingCapacity,
+                                                         @PathVariable Double workingWidth) {
+        return ResponseEntity.ok(roadBarrierService.getRoadBarrierParametersByParameters(holdingCapacity,workingWidth));
     }
 }
