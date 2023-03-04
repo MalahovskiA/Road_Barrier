@@ -1,6 +1,8 @@
-package by.malahovski.barriers.service;
+package by.malahovski.barriers.service.impl;
 
 
+
+import by.malahovski.barriers.service.UserDetailsImpl;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -11,11 +13,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Date;
 
-public class Helper implements Runnable {
+public class AdvancedServiceImpl implements Runnable {
 
     private final UserDetailsImpl userDetails;
 
-    public Helper(UserDetailsImpl userDetails) {
+    public AdvancedServiceImpl(UserDetailsImpl userDetails) {
         this.userDetails = userDetails;
     }
 

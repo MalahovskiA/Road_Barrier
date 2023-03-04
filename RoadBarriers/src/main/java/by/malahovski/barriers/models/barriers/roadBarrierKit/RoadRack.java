@@ -20,6 +20,10 @@ public class RoadRack {
     @Column (name = "road_rack_profile")
     private String roadRackProfile;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="road_console_id")
+    private RoadConsole roadConsole;
+
     @Column
     private Double height;
 

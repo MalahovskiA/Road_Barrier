@@ -1,6 +1,5 @@
 package by.malahovski.barriers.models.barriers.roadBarrierKit;
 
-import by.malahovski.barriers.models.barriers.RoadBarrierParameters;
 import lombok.Data;
 
 import javax.persistence.*;

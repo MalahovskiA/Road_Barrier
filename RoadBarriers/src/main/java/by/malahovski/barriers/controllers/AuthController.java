@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import by.malahovski.barriers.repository.UserRepository;
-import by.malahovski.barriers.service.Helper;
+import by.malahovski.barriers.service.impl.AdvancedServiceImpl;
 import by.malahovski.barriers.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -72,7 +72,7 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        new Thread(new Helper(userDetails)).start();
+        new Thread(new AdvancedServiceImpl(userDetails)).start();
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),

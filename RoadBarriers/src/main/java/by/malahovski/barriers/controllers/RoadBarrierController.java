@@ -2,6 +2,7 @@ package by.malahovski.barriers.controllers;
 
 import by.malahovski.barriers.models.barriers.EClassOfTheBarrier;
 import by.malahovski.barriers.models.barriers.RoadBarrierParameters;
+import by.malahovski.barriers.models.barriers.RoadMetalBarrier;
 import by.malahovski.barriers.service.RoadBarrierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,11 +58,19 @@ public class RoadBarrierController {
         return ResponseEntity.ok(roadBarrierService.getRoadBarrierParametersByParameters(holdingCapacity,workingWidth));
     }
 
-    @GetMapping(value = "/calculate/{length}{holdingCapacity}/{workingWidth}")
+    @GetMapping(value = "/calculate/{length}/{holdingCapacity}/{workingWidth}")
     @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<List<RoadBarrierParameters>> calculateBarrier(@PathVariable String length,
                                                                         @PathVariable Integer holdingCapacity,
                                                                         @PathVariable Double workingWidth) {
         return ResponseEntity.ok(roadBarrierService.getRoadBarrierParametersByParameters(holdingCapacity,workingWidth));
+    }
+
+    @GetMapping(value = "/metalbarrier/{length}/{holdingCapacity}/{workingWidth}")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
+    public ResponseEntity<RoadMetalBarrier> getMetalBarrier(@PathVariable Integer length,
+                                                            @PathVariable Integer holdingCapacity,
+                                                            @PathVariable Double workingWidth) {
+        return ResponseEntity.ok(roadBarrierService.calculateBarrierByParameters(length,holdingCapacity,workingWidth));
     }
 }
