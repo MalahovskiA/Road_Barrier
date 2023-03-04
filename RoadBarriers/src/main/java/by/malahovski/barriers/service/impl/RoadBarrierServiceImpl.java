@@ -68,19 +68,20 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
     @Override
     public RoadMetalBarrier calculateBarrierByParameters(Integer length, Integer holdingCapacity, Double workingWidth) {
         if (roadBarrierRepository.findAllByHoldingCapacityGreaterThanAndWorkingWidthGreaterThan(holdingCapacity, workingWidth).isPresent()) {
-            List<RoadBarrierParameters> roadBarrierParameters = roadBarrierRepository.findAllByHoldingCapacityGreaterThanAndWorkingWidthGreaterThan(holdingCapacity, workingWidth).get();
-            RoadBarrierParameters parameters = roadBarrierParameters.stream().min(Comparator.comparing(RoadBarrierParameters::getRackPitch)).get();
-
-            List<RoadBeam> roadBeams = new ArrayList<>();
-
-
             RoadMetalBarrier roadMetalBarrier = new RoadMetalBarrier();
-            roadMetalBarrier.setLength(length);
-            roadMetalBarrier.setHoldingCapacity(parameters.getHoldingCapacity());
-            roadMetalBarrier.setWorkingWidth(parameters.getWorkingWidth());
-            roadMetalBarrier.setRoadBarrierParameters(parameters);
+            List<RoadBarrierParameters> roadBarrierParameters = roadBarrierRepository.findAllByHoldingCapacityGreaterThanAndWorkingWidthGreaterThan(holdingCapacity, workingWidth).get();
 
+            if(roadBarrierParameters.stream().max(Comparator.comparing(RoadBarrierParameters::getRackPitch)).isPresent()) {
+                RoadBarrierParameters parameters = roadBarrierParameters.stream().max(Comparator.comparing(RoadBarrierParameters::getRackPitch)).get();
 
+                List<RoadBeam> roadBeams = new ArrayList<>();
+
+                roadMetalBarrier.setLength(length);
+                roadMetalBarrier.setHoldingCapacity(parameters.getHoldingCapacity());
+                roadMetalBarrier.setWorkingWidth(parameters.getWorkingWidth());
+                roadMetalBarrier.setRoadBarrierParameters(parameters);
+
+            }
         }
         return null;
     }
