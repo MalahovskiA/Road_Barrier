@@ -45,14 +45,6 @@ public class RoadBarrierController {
         RoadBarrierParameters roadBarrierParametersList = roadBarrierService.getBarriersByName(name);
         return ResponseEntity.status(HttpStatus.FOUND).body(roadBarrierParametersList);
     }
-    @PutMapping(value = "/price")
-    @PreAuthorize("hasRole('MANAGER')")
-    public ResponseEntity<Boolean> readPrice(@RequestBody String name) {
-        roadBarrierService.readExelPrice();
-        System.out.println();
-        System.out.println();
-        return ResponseEntity.ok(roadBarrierService.readPrice(name));
-    }
 
     @GetMapping(value = "/technical/{holdingCapacity}/{workingWidth}")
     @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
@@ -61,9 +53,9 @@ public class RoadBarrierController {
         return ResponseEntity.ok(roadBarrierService.getRoadBarrierParametersByParameters(holdingCapacity,workingWidth));
     }
 
-    @GetMapping(value = "/calculate/{length}/{holdingCapacity}/{workingWidth}")
+    @GetMapping(value = "/calculate/{holdingCapacity}/{workingWidth}")
     @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
-    public ResponseEntity<List<RoadBarrierParameters>> calculateBarrier(@PathVariable String length,
+    public ResponseEntity<List<RoadBarrierParameters>> calculateBarrier(
                                                                         @PathVariable Integer holdingCapacity,
                                                                         @PathVariable Double workingWidth) {
         return ResponseEntity.ok(roadBarrierService.getRoadBarrierParametersByParameters(holdingCapacity,workingWidth));
@@ -75,5 +67,11 @@ public class RoadBarrierController {
                                                             @PathVariable Integer holdingCapacity,
                                                             @PathVariable Double workingWidth) {
         return ResponseEntity.ok(roadBarrierService.calculateBarrierByParameters(length,holdingCapacity,workingWidth));
+    }
+
+    @PutMapping(value = "/updateprice")
+    @PreAuthorize("hasRole('MANAGER')")
+    public ResponseEntity<Boolean> updatePriceExel(@RequestBody String name) {
+        return ResponseEntity.ok(roadBarrierService.updatePriceOnFile(name));
     }
 }

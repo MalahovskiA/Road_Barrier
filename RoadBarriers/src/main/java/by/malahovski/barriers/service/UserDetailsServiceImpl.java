@@ -10,6 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import by.malahovski.barriers.models.User;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -35,5 +40,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		} else {
 			return false;
 		}
+	}
+
+	public Boolean readLog(String fileName) {
+		try {
+			String prices = null;
+			File src = new File(fileName);
+			FileReader reader = new FileReader(src);
+			Scanner scanner = new Scanner(reader);
+			while (scanner.hasNextLine()) {
+				prices = scanner.nextLine();
+			}
+			System.out.println("Log read: " + fileName);
+			System.out.println(prices);
+			reader.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return true;
 	}
 }

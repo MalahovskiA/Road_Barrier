@@ -2,8 +2,6 @@ package by.malahovski.barriers.service.impl;
 
 
 import by.malahovski.barriers.service.UserDetailsImpl;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -24,30 +22,22 @@ public class AdvancedServiceImpl implements Runnable {
     @Override
     public void run() {
         System.out.println("thread named " + Thread.currentThread().getName() + " started");
-
         Path newFilePath = Paths.get("D:", "LOG.txt");
-
-
         if (!Files.exists(newFilePath)) {
             try {
                 Files.createFile(newFilePath);
             } catch (IOException e) {
-                System.err.println(e);
+                throw new RuntimeException(e);
             }
         }
-        try (BufferedWriter bw = Files.newBufferedWriter(newFilePath, StandardCharsets.UTF_8)) {
+        try (BufferedWriter bw = Files.newBufferedWriter(newFilePath, StandardCharsets.UTF_8,StandardOpenOption.APPEND)) {
             Date date = new Date();
-            bw.write(date.toString());
-            bw.write(userDetails.getUsername());
-            bw.write(userDetails.getEmail());
-            bw.write(String.valueOf(userDetails.isEnabled()));
-            bw.write(String.valueOf(userDetails.isAccountNonExpired()));
+            bw.write("User: " + userDetails.getUsername() + " ");
+            bw.write("with email: " + userDetails.getEmail() + " ");
+            bw.write("login: " + date + " ");
+            bw.write("account is Enabled: " + userDetails.isEnabled() + " ");
+            bw.write("account is NonExpired : " +userDetails.isAccountNonExpired() + "\n");
             System.out.println("File written");
-            try {
-                Files.writeString(newFilePath, userDetails.toString(), StandardOpenOption.APPEND);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

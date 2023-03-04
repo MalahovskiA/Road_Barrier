@@ -59,4 +59,10 @@ public class UserController {
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(isDeleted);
 	}
+
+    @PutMapping(value = "/admin/log")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Boolean> readPrice(@RequestBody String name) {
+        return ResponseEntity.ok(userDetailsService.readLog(name));
+    }
 }

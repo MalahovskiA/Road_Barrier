@@ -44,25 +44,6 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
     }
 
     @Override
-    public Boolean readPrice(String fileName) {
-        try {
-            String prices = null;
-            File src = new File(fileName);
-            FileReader reader = new FileReader(src);
-            Scanner scanner = new Scanner(reader);
-            while (scanner.hasNextLine()) {
-                prices = scanner.nextLine();
-            }
-            System.out.println("Чтение файла: " + fileName);
-            System.out.println(prices);
-            reader.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return true;
-    }
-
-    @Override
     public List<RoadBarrierParameters> getRoadBarrierParametersByParameters(Integer holdingCapacity, Double workingWidth) {
         return roadBarrierRepository.findAllByHoldingCapacityGreaterThanAndWorkingWidthIsLessThan(holdingCapacity, workingWidth)
                 .orElseThrow(() -> new RuntimeException("Barriers on" + holdingCapacity + " and "
@@ -111,8 +92,8 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
         return roadMetalBarrier;
     }
 
-    public void readExelPrice() {
-        String fileLocation = "D://price.xlsx";
+    @Override
+    public Boolean updatePriceOnFile(String fileLocation) {
         FileInputStream file;
         try {
             file = new FileInputStream(fileLocation);
@@ -124,39 +105,19 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
                     Cell cell = cellIterator.next();
                     switch (cell.getCellType()) {
                         case NUMERIC:
-                            System.out.print((int) cell.getNumericCellValue() + "|");
+                            System.out.print(cell.getNumericCellValue() + "|");
                             break;
                         case STRING:
                             System.out.print(cell.getStringCellValue() + "|");
                             break;
                     }
                 }
-                System.out.println("");
+                System.out.println();
             }
             file.close();
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-
-    public void printCellValue(Cell cell) {
-        CellType cellType = cell.getCellType().equals(CellType.FORMULA)
-                ? cell.getCachedFormulaResultType() : cell.getCellType();
-        if (cellType.equals(CellType.STRING)) {
-            System.out.print(cell.getStringCellValue() + " | ");
-        }
-        if (cellType.equals(CellType.NUMERIC)) {
-            if (DateUtil.isCellDateFormatted(cell)) {
-                System.out.print(cell.getDateCellValue() + " | ");
-            } else {
-                System.out.print(cell.getNumericCellValue() + " | ");
-            }
-        }
-        if (cellType.equals(CellType.BOOLEAN)) {
-            System.out.print(cell.getBooleanCellValue() + " | ");
-        }
+        return true;
     }
 }
