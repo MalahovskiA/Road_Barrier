@@ -17,29 +17,35 @@ public  class RoadBarrierParameters {
         @Column
         private String name;
 
-        @Column (name = "group_barrier")
+        @Column(name = "group_barrier")
         private Integer group;
 
         @Column
         private Integer type;
 
-        @Column (name = "class")
+        @Column(name = "class")
         @Enumerated(EnumType.STRING)
         EClassOfTheBarrier classOfTheBarrier;
 
-        @Column
+        @Column(name = "holding_capacity")
         private Integer holdingCapacity;
 
         @Column
         private Double height;
 
-        @Column
+        @Column(name = "thickness_beam")
+        private Double thicknessBeam;
+
+        @Column(name = "rack_profile")
+        private String rackProfile;
+
+        @Column(name = "rack_pitch")
         private Double rackPitch;
 
-        @Column
+        @Column(name = "dynamic_deflection")
         private Double dynamicDeflection;
 
-        @Column
+        @Column(name = "working_width")
         private Double workingWidth;
 
         @Column
