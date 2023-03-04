@@ -4,11 +4,8 @@ import by.malahovski.barriers.models.barriers.EClassOfTheBarrier;
 import by.malahovski.barriers.models.barriers.RoadBarrierParameters;
 import by.malahovski.barriers.models.barriers.RoadMetalBarrier;
 import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadBeam;
-import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadConsole;
 import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadRack;
 import by.malahovski.barriers.repository.RoadBarrierRepository;
-import by.malahovski.barriers.repository.RoadConsoleRepository;
-import by.malahovski.barriers.repository.RoadRackRepository;
 import by.malahovski.barriers.service.RoadBarrierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,15 +18,9 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
 
     private final RoadBarrierRepository roadBarrierRepository;
 
-    private final RoadRackRepository roadRackRepository;
-
-    private final RoadConsoleRepository roadConsoleRepository;
-
     @Autowired
-    public RoadBarrierServiceImpl(RoadBarrierRepository roadBarrierRepository, RoadRackRepository roadRackRepository, RoadConsoleRepository roadConsoleRepository) {
+    public RoadBarrierServiceImpl(RoadBarrierRepository roadBarrierRepository) {
         this.roadBarrierRepository = roadBarrierRepository;
-        this.roadRackRepository = roadRackRepository;
-        this.roadConsoleRepository = roadConsoleRepository;
     }
 
     @Override
@@ -83,7 +74,10 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
         roadBarrierParameters.forEach(System.out::println);
         System.out.println();
 
-        RoadBarrierParameters parameters = roadBarrierParameters.stream().max(Comparator.comparing(RoadBarrierParameters::getRackPitch)).get();
+        RoadBarrierParameters parameters = roadBarrierParameters.stream()
+                .max(Comparator.comparing(RoadBarrierParameters::getRackPitch))
+                .orElseThrow(() -> new RuntimeException("Barriers on" + holdingCapacity + " and "
+                        + workingWidth + " is not found"));
         System.out.println(parameters);
 
         List<RoadBeam> roadBeams = new ArrayList<>();
@@ -102,9 +96,14 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
         roadMetalBarrier.setRoadBarrierParameters(parameters);
         roadMetalBarrier.setRoadBeams(roadBeams);
         roadMetalBarrier.setRoadRacks(roadRacks);
-
-//        roadBeams.stream()
-//                .map(RoadBeam::getWeight)
+        roadMetalBarrier.setTotalWeight(roadBeams.stream()
+                .map(RoadBeam::getWeight)
+                .reduce(Double::sum)
+                .orElseThrow(() -> new RuntimeException("West is not installed")));
+        roadMetalBarrier.setTotalCost(roadBeams.stream()
+                .map(RoadBeam::getPrice)
+                .reduce(Double::sum)
+                .orElseThrow(() -> new RuntimeException("Price is not installed")));
 
         return roadMetalBarrier;
     }
