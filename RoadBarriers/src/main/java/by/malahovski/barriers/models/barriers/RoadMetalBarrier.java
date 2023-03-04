@@ -22,8 +22,6 @@ public class RoadMetalBarrier {
 
     private List<RoadRack> roadRacks;
 
-    private List<RoadConsole> roadConsoles;
-
     private Double totalWeight;
 
     private Double totalCost;

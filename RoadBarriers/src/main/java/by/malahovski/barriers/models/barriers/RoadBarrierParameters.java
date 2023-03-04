@@ -1,6 +1,7 @@
 package by.malahovski.barriers.models.barriers;
 
 import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadBeam;
+import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadRack;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -38,8 +39,9 @@ public  class RoadBarrierParameters {
         @JoinColumn(name="road_beam_id")
         private RoadBeam roadBeam;
 
-        @Column(name = "rack_profile")
-        private String rackProfile;
+        @ManyToOne(fetch = FetchType.EAGER)
+        @JoinColumn(name="road_rack_id")
+        private RoadRack roadRack;
 
         @Column(name = "rack_pitch")
         private Double rackPitch;
