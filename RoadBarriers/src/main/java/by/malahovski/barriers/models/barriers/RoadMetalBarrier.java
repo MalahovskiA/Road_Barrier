@@ -1,7 +1,6 @@
 package by.malahovski.barriers.models.barriers;
 
 import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadBeam;
-import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadConsole;
 import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadRack;
 import lombok.Data;
 

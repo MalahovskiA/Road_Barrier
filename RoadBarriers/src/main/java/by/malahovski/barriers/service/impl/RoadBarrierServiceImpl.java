@@ -7,6 +7,9 @@ import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadBeam;
 import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadRack;
 import by.malahovski.barriers.repository.RoadBarrierRepository;
 import by.malahovski.barriers.service.RoadBarrierService;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -106,5 +109,54 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
                 .orElseThrow(() -> new RuntimeException("Price is not installed")));
 
         return roadMetalBarrier;
+    }
+
+    public void readExelPrice() {
+        String fileLocation = "D://price.xlsx";
+        FileInputStream file;
+        try {
+            file = new FileInputStream(fileLocation);
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            for (Row row : sheet) {
+                Iterator<Cell> cellIterator = row.cellIterator();
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    switch (cell.getCellType()) {
+                        case NUMERIC:
+                            System.out.print((int) cell.getNumericCellValue() + "|");
+                            break;
+                        case STRING:
+                            System.out.print(cell.getStringCellValue() + "|");
+                            break;
+                    }
+                }
+                System.out.println("");
+            }
+            file.close();
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+
+    public void printCellValue(Cell cell) {
+        CellType cellType = cell.getCellType().equals(CellType.FORMULA)
+                ? cell.getCachedFormulaResultType() : cell.getCellType();
+        if (cellType.equals(CellType.STRING)) {
+            System.out.print(cell.getStringCellValue() + " | ");
+        }
+        if (cellType.equals(CellType.NUMERIC)) {
+            if (DateUtil.isCellDateFormatted(cell)) {
+                System.out.print(cell.getDateCellValue() + " | ");
+            } else {
+                System.out.print(cell.getNumericCellValue() + " | ");
+            }
+        }
+        if (cellType.equals(CellType.BOOLEAN)) {
+            System.out.print(cell.getBooleanCellValue() + " | ");
+        }
     }
 }

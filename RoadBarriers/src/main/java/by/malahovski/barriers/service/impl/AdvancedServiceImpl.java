@@ -1,17 +1,17 @@
 package by.malahovski.barriers.service.impl;
 
 
-
 import by.malahovski.barriers.service.UserDetailsImpl;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Date;
+import java.util.*;
 
 public class AdvancedServiceImpl implements Runnable {
 
@@ -27,6 +27,7 @@ public class AdvancedServiceImpl implements Runnable {
 
         Path newFilePath = Paths.get("D:", "LOG.txt");
 
+
         if (!Files.exists(newFilePath)) {
             try {
                 Files.createFile(newFilePath);
@@ -35,7 +36,7 @@ public class AdvancedServiceImpl implements Runnable {
             }
         }
         try (BufferedWriter bw = Files.newBufferedWriter(newFilePath, StandardCharsets.UTF_8)) {
-            Date date =  new Date();
+            Date date = new Date();
             bw.write(date.toString());
             bw.write(userDetails.getUsername());
             bw.write(userDetails.getEmail());

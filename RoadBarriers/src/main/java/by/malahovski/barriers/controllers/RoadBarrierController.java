@@ -48,6 +48,9 @@ public class RoadBarrierController {
     @PutMapping(value = "/price")
     @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<Boolean> readPrice(@RequestBody String name) {
+        roadBarrierService.readExelPrice();
+        System.out.println();
+        System.out.println();
         return ResponseEntity.ok(roadBarrierService.readPrice(name));
     }
 
