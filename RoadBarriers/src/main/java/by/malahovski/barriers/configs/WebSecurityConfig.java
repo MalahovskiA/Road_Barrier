@@ -2,7 +2,7 @@ package by.malahovski.barriers.configs;
 
 import by.malahovski.barriers.configs.jwt.AuthEntryPointJwt;
 import by.malahovski.barriers.configs.jwt.AuthTokenFilter;
-import by.malahovski.barriers.service.UserDetailsServiceImpl;
+import by.malahovski.barriers.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

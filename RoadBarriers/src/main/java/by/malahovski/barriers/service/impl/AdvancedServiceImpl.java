@@ -1,8 +1,6 @@
 package by.malahovski.barriers.service.impl;
 
 
-import by.malahovski.barriers.service.UserDetailsImpl;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;

@@ -1,4 +1,4 @@
-package by.malahovski.barriers.service;
+package by.malahovski.barriers.service.impl;
 
 import java.util.Collection;
 import java.util.List;

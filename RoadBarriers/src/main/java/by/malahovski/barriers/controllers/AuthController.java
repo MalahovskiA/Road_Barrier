@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import by.malahovski.barriers.repository.UserRepository;
 import by.malahovski.barriers.service.impl.AdvancedServiceImpl;
-import by.malahovski.barriers.service.UserDetailsImpl;
+import by.malahovski.barriers.service.impl.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
