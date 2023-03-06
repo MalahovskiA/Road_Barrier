@@ -5,6 +5,7 @@ import by.malahovski.barriers.models.barriers.RoadMetalBarrier;
 import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadBeam;
 import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadRack;
 import by.malahovski.barriers.repository.RoadBarrierParametersRepository;
+import by.malahovski.barriers.repository.RoadBeamRepository;
 import by.malahovski.barriers.service.RoadBarrierService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -20,9 +21,12 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
 
     private final RoadBarrierParametersRepository roadBarrierParametersRepository;
 
+    private final RoadBeamRepository roadBeamRepository;
+
     @Autowired
-    public RoadBarrierServiceImpl(RoadBarrierParametersRepository roadBarrierParametersRepository) {
+    public RoadBarrierServiceImpl(RoadBarrierParametersRepository roadBarrierParametersRepository, RoadBeamRepository roadBeamRepository) {
         this.roadBarrierParametersRepository = roadBarrierParametersRepository;
+        this.roadBeamRepository = roadBeamRepository;
     }
 
     @Override
@@ -71,7 +75,6 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
 
     @Override
     public Boolean updatePriceOnFile(String fileLocation) {
-        Map<Long, Double> price = new HashMap<>();
         FileInputStream file;
         try {
             file = new FileInputStream(fileLocation);
@@ -79,15 +82,17 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
             XSSFSheet sheet = workbook.getSheetAt(0);
             for (Row row : sheet) {
                 Iterator<Cell> cellIterator = row.cellIterator();
+                Long id = (long) (row.getRowNum() + 1);
+                System.out.println(id);
                 while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
                     switch (cell.getCellType()) {
                         case NUMERIC:
-                            System.out.println(cell.getCellType() + " ");
-                            System.out.print(cell.getNumericCellValue() + "|");
+                            RoadBeam roadBeam = roadBeamRepository.getOne(id);
+                            roadBeam.setPrice(cell.getNumericCellValue());
+                            roadBeamRepository.save(roadBeam);
                             break;
                         case STRING:
-                            System.out.println(cell.getCellType() + " ");
                             System.out.print(cell.getStringCellValue() + "|");
                             break;
                     }

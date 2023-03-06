@@ -12,6 +12,7 @@ import java.util.Optional;
 @Repository
 public interface RoadBarrierParametersRepository extends JpaRepository<RoadBarrierParameters, Long> {
 
+    @NonNull
     @Override
     List<RoadBarrierParameters> findAll();
 
