@@ -3,12 +3,13 @@ package by.malahovski.barriers.models.barriers.roadBarrierKit;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Data
 @Entity
 @Table(name = "road_beam")
-public class RoadBeam {
+public class RoadBeam implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,24 +1,13 @@
 package by.malahovski.barriers.service;
 
-import by.malahovski.barriers.models.barriers.EClassOfTheBarrier;
-import by.malahovski.barriers.models.barriers.RoadBarrierParameters;
 import by.malahovski.barriers.models.barriers.RoadMetalBarrier;
-
-
-import java.util.List;
 
 
 public interface RoadBarrierService {
 
-        List<RoadBarrierParameters> getAllBarriers();
+    RoadMetalBarrier calculateBarrierByParameters(Integer length, Integer holdingCapacity, Double workingWidth);
 
-        List<RoadBarrierParameters> getBarriersByClass(EClassOfTheBarrier classOfTheBarrier);
+    Boolean updatePriceOnFile(String fileLocation);
 
-        RoadBarrierParameters getBarriersByName(String name);
-
-        List<RoadBarrierParameters> getRoadBarrierParametersByParameters (Integer holdingCapacity, Double workingWidth);
-
-        RoadMetalBarrier calculateBarrierByParameters (Integer length, Integer holdingCapacity, Double workingWidth);
-
-        Boolean updatePriceOnFile(String fileLocation);
+    void serializeBarrierParameters(String namePath, Integer holdingCapacity, Double workingWidth);
 }

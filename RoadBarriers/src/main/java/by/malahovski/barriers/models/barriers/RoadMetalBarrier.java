@@ -4,10 +4,11 @@ import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadBeam;
 import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadRack;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class RoadMetalBarrier {
+public class RoadMetalBarrier implements Serializable {
 
     private Integer length;
 

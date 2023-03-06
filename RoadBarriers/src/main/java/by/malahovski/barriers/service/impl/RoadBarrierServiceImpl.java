@@ -1,11 +1,10 @@
 package by.malahovski.barriers.service.impl;
 
-import by.malahovski.barriers.models.barriers.EClassOfTheBarrier;
 import by.malahovski.barriers.models.barriers.RoadBarrierParameters;
 import by.malahovski.barriers.models.barriers.RoadMetalBarrier;
 import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadBeam;
 import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadRack;
-import by.malahovski.barriers.repository.RoadBarrierRepository;
+import by.malahovski.barriers.repository.RoadBarrierParametersRepository;
 import by.malahovski.barriers.service.RoadBarrierService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -19,42 +18,20 @@ import java.util.*;
 @Service
 public class RoadBarrierServiceImpl implements RoadBarrierService {
 
-    private final RoadBarrierRepository roadBarrierRepository;
+    private final RoadBarrierParametersRepository roadBarrierParametersRepository;
 
     @Autowired
-    public RoadBarrierServiceImpl(RoadBarrierRepository roadBarrierRepository) {
-        this.roadBarrierRepository = roadBarrierRepository;
-    }
-
-    @Override
-    public List<RoadBarrierParameters> getAllBarriers() {
-        return roadBarrierRepository.findAll();
-    }
-
-    @Override
-    public List<RoadBarrierParameters> getBarriersByClass(EClassOfTheBarrier classOfTheBarrier) {
-        return roadBarrierRepository.findAllByClassOfTheBarrier(classOfTheBarrier)
-                .orElseThrow(() -> new RuntimeException("Barriers of class " + classOfTheBarrier + " is not found"));
-    }
-
-    @Override
-    public RoadBarrierParameters getBarriersByName(String name) {
-        return roadBarrierRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("Barriers with name: " + name + " is not found"));
-    }
-
-    @Override
-    public List<RoadBarrierParameters> getRoadBarrierParametersByParameters(Integer holdingCapacity, Double workingWidth) {
-        return roadBarrierRepository.findAllByHoldingCapacityGreaterThanAndWorkingWidthIsLessThan(holdingCapacity, workingWidth)
-                .orElseThrow(() -> new RuntimeException("Barriers on" + holdingCapacity + " and "
-                        + workingWidth + " is not found"));
+    public RoadBarrierServiceImpl(RoadBarrierParametersRepository roadBarrierParametersRepository) {
+        this.roadBarrierParametersRepository = roadBarrierParametersRepository;
     }
 
     @Override
     public RoadMetalBarrier calculateBarrierByParameters(Integer length, Integer holdingCapacity, Double workingWidth) {
 
         RoadMetalBarrier roadMetalBarrier = new RoadMetalBarrier();
-        List<RoadBarrierParameters> roadBarrierParameters = getRoadBarrierParametersByParameters(holdingCapacity, workingWidth);
+        List<RoadBarrierParameters> roadBarrierParameters = roadBarrierParametersRepository.findAllByHoldingCapacityGreaterThanAndWorkingWidthIsLessThan(holdingCapacity, workingWidth)
+                .orElseThrow(() -> new RuntimeException("Barriers on" + holdingCapacity + " and "
+                        + workingWidth + " is not found"));
         roadBarrierParameters.forEach(System.out::println);
         System.out.println();
 
@@ -94,6 +71,7 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
 
     @Override
     public Boolean updatePriceOnFile(String fileLocation) {
+        Map<Long, Double> price = new HashMap<>();
         FileInputStream file;
         try {
             file = new FileInputStream(fileLocation);
@@ -105,9 +83,11 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
                     Cell cell = cellIterator.next();
                     switch (cell.getCellType()) {
                         case NUMERIC:
+                            System.out.println(cell.getCellType() + " ");
                             System.out.print(cell.getNumericCellValue() + "|");
                             break;
                         case STRING:
+                            System.out.println(cell.getCellType() + " ");
                             System.out.print(cell.getStringCellValue() + "|");
                             break;
                     }
@@ -119,5 +99,17 @@ public class RoadBarrierServiceImpl implements RoadBarrierService {
             throw new RuntimeException(ex);
         }
         return true;
+    }
+
+    @Override
+    public void serializeBarrierParameters(String filePath, Integer holdingCapacity, Double workingWidth) {
+        final File src = new File(filePath);
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(src))) {
+            objectOutputStream.writeObject(roadBarrierParametersRepository.findAllByHoldingCapacityGreaterThanAndWorkingWidthIsLessThan(holdingCapacity, workingWidth)
+                    .orElseThrow(() -> new RuntimeException("Barriers on" + holdingCapacity + " and "
+                            + workingWidth + " is not found")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

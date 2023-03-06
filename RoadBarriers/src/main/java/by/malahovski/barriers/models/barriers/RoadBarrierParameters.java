@@ -5,11 +5,12 @@ import by.malahovski.barriers.models.barriers.roadBarrierKit.RoadRack;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "main_parameters")
-public  class RoadBarrierParameters {
+public  class RoadBarrierParameters implements Serializable {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

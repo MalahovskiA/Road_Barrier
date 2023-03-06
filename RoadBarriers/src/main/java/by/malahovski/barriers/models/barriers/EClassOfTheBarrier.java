@@ -1,6 +1,8 @@
 package by.malahovski.barriers.models.barriers;
 
-public enum EClassOfTheBarrier {
+import java.io.Serializable;
+
+public enum EClassOfTheBarrier implements Serializable {
     ДО,
 
     ДД,
