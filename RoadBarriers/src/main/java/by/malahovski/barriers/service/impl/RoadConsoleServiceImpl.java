@@ -43,7 +43,6 @@ public class RoadConsoleServiceImpl implements RoadConsoleService {
         } else {
             roadConsoleRepository.save(console);
         }
-
     }
 
     @Override
